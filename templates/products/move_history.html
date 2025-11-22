@@ -79,7 +79,11 @@
     <!-- TOP BAR -->
     <div class="flex justify-between items-center mb-10">
         <div class="flex items-center">
+            {% if request.user.is_authenticated %}
             <a href="{% url 'dashboard' %}" class="btn-back mr-4">← Dashboard</a>
+            {% else %}
+            <a href="{% url 'login' %}?next={% url 'dashboard' %}" class="btn-back mr-4">← Dashboard</a>
+            {% endif %}
             <h1 class="text-4xl font-extrabold text-gray-900 tracking-wide">
                 📜 Stock Movement History
             </h1>

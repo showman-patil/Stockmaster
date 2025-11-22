@@ -1,6 +1,9 @@
+
+ {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
@@ -18,7 +21,7 @@ body {
     justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, #5b86e5, #36d1dc);
-    background-image: url('truck1.jpg'); 
+    background-image: url("{% static 'img/bus.jpeg' %}");
     background-size: cover;       
     background-position: left;  
     background-repeat: no-repeat; 
@@ -118,9 +121,27 @@ body {
             {% csrf_token %}
             <h1>Login</h1>
 
+            {% if form and form.non_field_errors %}
+            <div style="margin-bottom:10px; color: red; font-weight:600;">
+                {% for err in form.non_field_errors %}
+                    <div style="margin-bottom:6px;">{{ err }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if messages %}
+            <div style="margin-bottom:10px;">
+                {% for message in messages %}
+                    <div style="color: red; font-weight:600; margin-bottom:6px;">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+
             <div class="input-group">
-                <label>Email</label>
-                <input type="text" name="username" required>
+                <label>Username or Email</label>
+                <input type="text" name="username" required placeholder="username or email">
             </div>
 
             <div class="input-group">

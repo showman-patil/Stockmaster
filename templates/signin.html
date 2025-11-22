@@ -112,6 +112,14 @@
         <h1>Sign In</h1>
         <form method="post" action="{% url 'signup' %}">
             {% csrf_token %}
+
+            {% if messages %}
+            <div style="margin-bottom:10px;">
+                {% for message in messages %}
+                    <div style="color: red; font-weight:600; margin-bottom:6px;">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
             <div class="input-group">
                 <label>Email</label>
                 <input type="email" name="email" placeholder="Enter your email" required>
@@ -120,6 +128,11 @@
             <div class="input-group">
                 <label>Password</label>
                 <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" name="password2" placeholder="Confirm password" required>
             </div>
 
 	    <a href="#" class="forgot">Forgot Password?</a>	

@@ -1,10 +1,13 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
+from .forms import EmailOrUsernameAuthenticationForm
 
 urlpatterns = [
-    path('', views.login, name='login'),
+    # Use Django's built-in LoginView with a custom form that accepts email or username
+    path('', auth_views.LoginView.as_view(template_name='login.html', authentication_form=EmailOrUsernameAuthenticationForm), name='login'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('export/', views.export_report, name='export_report'),
     path('profile/', views.profile_view, name='profile'),
     path('signup/', views.signup, name='signup'),
     path('logout/', views.logout_view, name='logout'),

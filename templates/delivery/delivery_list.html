@@ -24,7 +24,11 @@
 
         <div class="flex flex-col md:flex-row justify-between md:items-end mb-8 gap-4">
             <div class="flex items-center">
+                {% if request.user.is_authenticated %}
                 <a href="{% url 'dashboard' %}" class="inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition-all shadow-md text-sm font-medium">← Dashboard</a>
+                {% else %}
+                <a href="{% url 'login' %}?next={% url 'dashboard' %}" class="inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition-all shadow-md text-sm font-medium">← Dashboard</a>
+                {% endif %}
                 <div>
                     <p class="text-slate-500 text-sm font-semibold uppercase tracking-wide mb-1">Logistics</p>
                     <h1 class="text-3xl font-bold text-slate-900">Delivery Orders</h1>

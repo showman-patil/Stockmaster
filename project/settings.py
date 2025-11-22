@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'receipts',
     'delivery_app',
     'internal_transfer',
+    
 ]
 
 MIDDLEWARE = [
@@ -121,6 +123,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Include the project-level `static/` directory so `{% static %}` can find
+# files placed at `project/static/...` during development.
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -129,3 +135,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Development email backend (prints emails to console)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+# Login settings
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+
+
+# ----------------------
+# Jazzmin admin theme
+# ----------------------
+# Basic Jazzmin settings to give the admin a more polished look.
+JAZZMIN_SETTINGS = {
+    "site_title": "StockMaster Admin",
+    "site_header": "StockMaster",
+    "welcome_sign": "Welcome to StockMaster administration",
+    "show_ui_builder": False,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "accent": "accent-indigo",
+    "brand_color": "indigo",
+}
