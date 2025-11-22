@@ -47,14 +47,13 @@ def receipt_add(request):
             product=product,
             movement_type="Receipt",
             quantity=qty,
-            previous_stock=previous_stock,
-            new_stock=new_stock,
-            from_location=vendor,      # vendor = source
-            to_location="Warehouse",   # default destination
-            note=f"Receipt added from vendor {vendor}. {note or ''}"
+            source=vendor,
+            destination="Warehouse",
+            note=f"Receipt added from vendor {vendor}. prev={previous_stock} new={new_stock}. {note or ''}",
+            date=timezone.now()
         )
 
-        return redirect("receipt_list")
+        return redirect("receipts:receipt_list")
 
     return render(request, "receipts/receipt_add.html", {"products": products})
 

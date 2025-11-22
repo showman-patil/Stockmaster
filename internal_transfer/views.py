@@ -58,25 +58,23 @@ def transfer_add(request):
         # 1️⃣ Transfer-Out
         MovementHistory.objects.create(
             product=product,
-            movement_type="Transfer-Out",
+            movement_type="Transfer",
             quantity=qty,
-            previous_stock=previous_stock,
-            new_stock=new_stock,
-            from_location=from_loc,
-            to_location=to_loc,
-            note="Stock moved OUT (internal transfer)"
+            source=from_loc,
+            destination=to_loc,
+            note=f"Transfer OUT. prev={previous_stock} new={new_stock}. {note or ''}",
+            date=timezone.now()
         )
 
         # 2️⃣ Transfer-In (Logical entry)
         MovementHistory.objects.create(
             product=product,
-            movement_type="Transfer-In",
+            movement_type="Transfer",
             quantity=qty,
-            previous_stock=new_stock,
-            new_stock=new_stock,
-            from_location=from_loc,
-            to_location=to_loc,
-            note="Stock moved IN (internal transfer)"
+            source=from_loc,
+            destination=to_loc,
+            note=f"Transfer IN. prev={new_stock} new={new_stock}. {note or ''}",
+            date=timezone.now()
         )
 
         messages.success(request, "Internal transfer completed successfully!")

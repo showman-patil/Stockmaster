@@ -25,7 +25,7 @@ urlpatterns = [
     include(('products.urls', 'products'), namespace='products')
 ),
 
-    path("receipts/", include("receipts.urls")),
+    path("receipts/", include(("receipts.urls", "receipts"), namespace='receipts')),
     path("delivery/", include("delivery_app.urls", namespace='delivery')),
    path("transfer/", include("internal_transfer.urls")),
 

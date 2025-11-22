@@ -93,11 +93,10 @@ def adjustment_add(request):
             product=product,
             movement_type="Adjustment",
             quantity=qty,
-            previous_stock=prev,
-            new_stock=new_stock,
-            from_location=None,
-            to_location=None,
-            note=f"Stock adjustment: {adj_type}. {note}",
+            source=None,
+            destination=None,
+            note=f"Stock adjustment: {adj_type}. prev={prev} new={new_stock}. {note}",
+            date=timezone.now()
         )
 
         # ---------- UPDATE PRODUCT STOCK ----------

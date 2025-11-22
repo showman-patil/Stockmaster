@@ -92,7 +92,7 @@
             📥 Incoming Receipts
         </h1>
 
-        <a href="{% url 'receipt_add' %}" class="btn-add">
+        <a href="{% url 'receipts:receipt_add' %}" class="btn-add">
             + Create Receipt
         </a>
     </header>
@@ -144,7 +144,7 @@
 
                     <td>
                         <a
-                            href="{% url 'receipt_detail' r.id %}"
+                            href="{% url 'receipts:receipt_detail' r.id %}"
                             class="px-5 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 hover:shadow-xl transition"
                         >
                             View
