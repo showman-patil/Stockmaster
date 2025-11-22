@@ -26,12 +26,12 @@ def transfer_add(request):
         # ❌ SAME LOCATION CHECK
         if from_loc == to_loc:
             messages.error(request, "Cannot transfer to the same location.")
-            return redirect("transfer_add")
+            return redirect("internal_transfer:transfer_add")
 
         # ❌ STOCK CHECK
         if qty > product.stock:
             messages.error(request, "Not enough stock available!")
-            return redirect("transfer_add")
+            return redirect("internal_transfer:transfer_add")
 
         previous_stock = product.stock
 
@@ -78,6 +78,6 @@ def transfer_add(request):
         )
 
         messages.success(request, "Internal transfer completed successfully!")
-        return redirect("transfer_list")
+        return redirect("internal_transfer:transfer_list")
 
     return render(request, "internal_transfer/transfer_add.html", {"products": products})

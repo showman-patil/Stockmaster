@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #5b86e5, #36d1dc);
+	    background: linear-gradient(135deg, #5b86e5, #36d1dc);
+    	    background-image: url('truck1.jpg'); 
+    	    background-size: cover;       
+            background-position: left;  
+    	    background-repeat: no-repeat;
+        }
+
+        .container {
+            background: #d39972;
+            padding: 30px;
+            width: 350px;
+            border-radius: 30px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {x
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #36d1dc;
+            outline: none;
+        }
+
+        .btn {
+	    margin-top: 5px;
+            width: 100%;
+            padding: 10px;
+            background: #ffa500;
+            border: none;
+            color: black;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #db8e00;
+        }
+
+        .forgot {
+            display: block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: red;
+            font-size: 14px;
+        }
+
+        .forgot:hover {
+            text-decoration: underline;
+        }
+
+        .signup-text {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .signup-text a {
+            color: red;
+            text-decoration: none;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Sign In</h1>
+        <form method="post" action="{% url 'signup' %}">
+            {% csrf_token %}
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+	    <a href="#" class="forgot">Forgot Password?</a>	
+
+            <button class="btn" type="submit">Sign Up</button>
+
+            <p class="signup-text">Already have an account? <a href="{% url 'login' %}">Sign In</a></p>
+        </form>
+    </div>
+
+</body>
+</html>

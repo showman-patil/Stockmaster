@@ -27,7 +27,7 @@ urlpatterns = [
 
     path("receipts/", include(("receipts.urls", "receipts"), namespace='receipts')),
     path("delivery/", include("delivery_app.urls", namespace='delivery')),
-   path("transfer/", include("internal_transfer.urls")),
+    path("transfer/", include(("internal_transfer.urls", "internal_transfer"), namespace='internal_transfer')),
 
 
 ]
