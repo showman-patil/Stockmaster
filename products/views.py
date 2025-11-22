@@ -27,7 +27,7 @@ def product_add(request):
             description=request.POST.get('description'),
             reorder_level=request.POST.get('reorder_level', 0)
         )
-        return redirect('product_list')
+        return redirect('products:product_list')
 
     return render(request, 'products/product_add.html')
 
@@ -48,7 +48,7 @@ def product_detail(request, id):
         product.reorder_level = request.POST.get('reorder_level', 0)
         product.save()
 
-        return redirect('product_list')
+        return redirect('products:product_list')
 
     return render(request, 'products/product_detail.html', {'product': product})
 
@@ -72,7 +72,7 @@ def adjustment_add(request):
         if adj_type in ["Decrease", "Damage", "Lost", "Mismatch"]:
             if qty > prev:
                 messages.error(request, "Quantity cannot be more than available stock!")
-                return redirect("adjustment_add")
+                return redirect("products:adjustment_add")
             new_stock = prev - qty
         else:
             new_stock = prev + qty
@@ -105,7 +105,7 @@ def adjustment_add(request):
         product.save()
 
         messages.success(request, "Stock adjustment applied successfully!")
-        return redirect("adjustment_list")
+        return redirect("products:adjustment_list")
 
     return render(request, "products/adjustment_add.html", {"products": products})
 
