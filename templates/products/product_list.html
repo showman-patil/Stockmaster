@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Product List | StockMaster</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Page fade animation */
+        body {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0.2;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Slide cards */
+        .slide-up {
+            animation: slideUp 0.7s cubic-bezier(.17, .67, .83, .67);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Neon glowing border */
+        .neon-card {
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Table row hover */
+        .row-animate {
+            transition: 0.25s ease;
+        }
+
+        .row-animate:hover {
+            background: rgba(226, 232, 255, 0.6);
+            transform: scale(1.01);
+            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Add button neon */
+        .btn-neon:hover {
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.8);
+            transform: scale(1.05);
+            transition: 0.2s;
+        }
+
+        /* Search focus */
+        #searchInput:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+            transition: .25s;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-200 via-gray-100 to-blue-50 min-h-screen">
+
+    <!-- TOP NAV BAR -->
+    <div class="backdrop-blur-xl bg-white/70 shadow-xl p-5 flex justify-between items-center slide-up">
+        <h1 class="text-4xl font-extrabold text-gray-800 tracking-wide">
+            📦 Product Inventory
+        </h1>
+
+        <a href="{% url 'product_add' %}"
+            class="btn-neon px-6 py-2 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition text-lg">
+            + Add Product
+        </a>
+    </div>
+
+    <!-- SEARCH BAR -->
+    <div class="max-w-6xl mx-auto mt-6 slide-up">
+        <input id="searchInput" type="text" placeholder="🔍 Search products..."
+            class="w-full p-4 rounded-xl neon-card shadow focus:outline-none">
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="max-w-6xl mx-auto mt-10 neon-card shadow-xl p-6 slide-up overflow-x-auto">
+
+        <table class="table table-hover align-middle text-center text-gray-800 rounded-xl" id="productTable">
+            <thead class="bg-indigo-700 text-white text-lg">
+                <tr>
+                    <th class="py-3">Name</th>
+                    <th>SKU</th>
+                    <th>Category</th>
+                    <th>Stock</th>
+                    <th class="py-3">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for p in products %}
+                <tr class="row-animate bg-white/60 rounded-xl">
+                    <td class="font-semibold text-lg">{{ p.name }}</td>
+                    <td>{{ p.sku }}</td>
+                    <td>{{ p.category }}</td>
+                    <td class="font-bold text-indigo-700">{{ p.stock }}</td>
+
+                    <td>
+                        <a href="{% url 'product_detail' p.id %}"
+                            class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 hover:shadow-lg transition text-sm">
+                            View / Edit
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- SEARCH SCRIPT -->
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const rows = document.querySelectorAll("#productTable tbody tr");
+
+        searchInput.addEventListener("keyup", function () {
+            let value = this.value.toLowerCase();
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(value) ? "" : "none";
+            });
+        });
+    </script>
+
+</body>
+
+</html>

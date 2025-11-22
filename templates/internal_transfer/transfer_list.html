@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Internal Transfer | StockMaster</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Smooth page fade */
+        body {
+            animation: fadeIn .6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Slide animation */
+        .slide-up {
+            animation: slideUp .55s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glass card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.82);
+            border-radius: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.30);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 28px rgba(99, 102, 241, 0.28);
+            transition: .25s ease;
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 12px 38px rgba(99, 102, 241, 0.35);
+        }
+
+        /* Table row hover */
+        .row-hover {
+            transition: .25s ease;
+        }
+
+        .row-hover:hover {
+            background: rgba(229, 231, 255, 0.55);
+            transform: scale(1.015);
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+        }
+
+        /* Add Button */
+        .btn-add {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            padding: 10px 22px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            transition: .25s;
+            box-shadow: 0 6px 18px rgba(79, 70, 229, .35);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 26px rgba(79, 70, 229, .45);
+        }
+
+        /* Search bar */
+        #searchInput:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 12px rgba(79, 70, 229, .4);
+        }
+
+        /* Table header */
+        .table-head {
+            background: linear-gradient(90deg, #4338ca, #4f46e5);
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-300 via-gray-100 to-blue-200 min-h-screen">
+
+    <!-- TOP BAR -->
+    <header
+        class="bg-white/70 backdrop-blur-xl shadow-lg p-6 flex justify-between items-center slide-up rounded-b-2xl">
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-wide">
+            🔄 Internal Transfers
+        </h1>
+
+        <a href="{% url 'transfer_add' %}" class="btn-add">
+            + New Transfer
+        </a>
+    </header>
+
+    <!-- SEARCH BAR -->
+    <section class="max-w-6xl mx-auto mt-8 slide-up">
+        <input id="searchInput" type="text" placeholder="🔍 Search transfers..."
+            class="w-full p-4 rounded-xl glass-card shadow focus:outline-none">
+    </section>
+
+    <!-- TRANSFER TABLE -->
+    <section class="max-w-6xl mx-auto mt-10 glass-card p-7 slide-up overflow-x-auto">
+
+        <table class="w-full text-center text-gray-800" id="transferTable">
+
+            <!-- TABLE HEADER -->
+            <thead class="text-lg table-head rounded-md">
+                <tr>
+                    <th class="py-4">Transfer ID</th>
+                    <th>Product</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Quantity</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <!-- TABLE BODY -->
+            <tbody>
+                {% for t in transfers %}
+                <tr class="row-hover bg-white/60 rounded-xl">
+
+                    <td class="font-semibold text-lg text-indigo-700">
+                        TRF-{{ t.id }}
+                    </td>
+
+                    <td>{{ t.product.name }}</td>
+
+                    <td class="font-medium text-gray-700">{{ t.from_location }}</td>
+
+                    <td class="font-medium text-gray-700">{{ t.to_location }}</td>
+
+                    <td class="font-bold text-indigo-600">{{ t.quantity }}</td>
+
+                    <td>{{ t.date }}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <!-- SEARCH SCRIPT -->
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const rows = document.querySelectorAll("#transferTable tbody tr");
+
+        searchInput.addEventListener("keyup", () => {
+            const q = searchInput.value.toLowerCase();
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(q) ? "" : "none";
+            });
+        });
+    </script>
+
+</body>
+
+</html>

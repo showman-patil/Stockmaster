@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Stock Adjustment | StockMaster</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Fade-in Page Animation */
+        body {
+            animation: fadeIn .6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Premium Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.28);
+            box-shadow: 0 8px 26px rgba(99, 102, 241, 0.22);
+            transition: .25s;
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 14px 36px rgba(99, 102, 241, .32);
+            transform: translateY(-3px);
+        }
+
+        /* Inputs Focus Glow */
+        input:focus,
+        select:focus,
+        textarea:focus {
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.25);
+            border-color: #4f46e5 !important;
+            transform: scale(1.01);
+        }
+
+        /* Gradient Save Button */
+        .btn-save {
+            background: linear-gradient(135deg, #4f46e5, #6a5af9);
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 10px 28px rgba(79, 70, 229, .45);
+        }
+
+        /* Back Button */
+        .btn-back {
+            background: #111827;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            transition: .25s;
+        }
+
+        .btn-back:hover {
+            background: black;
+            transform: translateY(-2px);
+        }
+    </style>
+
+</head>
+
+<body class="bg-gradient-to-br from-indigo-200 via-gray-100 to-blue-100 min-h-screen p-10">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-10 slide-up">
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-wide">
+            🛠 Stock Adjustment
+        </h1>
+
+        <a href="{% url 'adjustment_list' %}" class="btn-back shadow">
+            ← View Adjustments
+        </a>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="max-w-3xl mx-auto glass-card p-10">
+
+        <!-- MESSAGE ALERT -->
+        {% if messages %}
+        <div class="mb-5">
+            {% for m in messages %}
+            <div class="p-3 rounded-lg {% if m.tags == 'error' %}bg-red-200 text-red-800{% else %}bg-green-200 text-green-800{% endif %}">
+                {{ m }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- PRODUCT -->
+            <div class="mb-7">
+                <label class="text-gray-700 font-semibold">Product</label>
+                <select name="product"
+                    class="w-full mt-1 p-3 border rounded-lg shadow-sm bg-white">
+                    <option disabled selected>-- Select Product --</option>
+
+                    {% for p in products %}
+                    <option value="{{ p.id }}">
+                        {{ p.name }} ({{ p.sku }}) — Current Stock: {{ p.stock }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- TYPE + QTY -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Adjustment Type -->
+                <div>
+                    <label class="text-gray-700 font-semibold">Adjustment Type</label>
+                    <select name="adjustment_type"
+                        class="w-full mt-1 p-3 border rounded-lg shadow-sm bg-white">
+                        <option value="Increase">Increase</option>
+                        <option value="Decrease">Decrease</option>
+                        <option value="Damage">Damage</option>
+                        <option value="Lost">Lost</option>
+                        <option value="Mismatch">Mismatch</option>
+                    </select>
+                </div>
+
+                <!-- Quantity -->
+                <div>
+                    <label class="text-gray-700 font-semibold">Quantity</label>
+                    <input type="number" name="quantity" min="1"
+                        class="w-full mt-1 p-3 border rounded-lg shadow-sm bg-white"
+                        placeholder="Enter quantity">
+                </div>
+
+            </div>
+
+            <!-- NOTES -->
+            <div class="mt-6">
+                <label class="text-gray-700 font-semibold">Notes (optional)</label>
+                <textarea name="note" rows="4"
+                    class="w-full mt-1 p-3 border rounded-lg shadow-sm bg-white"
+                    placeholder="Reason or description..."></textarea>
+            </div>
+
+            <!-- BUTTON -->
+            <div class="mt-8">
+                <button type="submit" class="btn-save w-full">
+                    Apply Adjustment
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

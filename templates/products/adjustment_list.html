@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Stock Adjustments | StockMaster</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Fade animation */
+    body {
+      animation: fadeIn .6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* Glass Card */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(99, 102, 241, 0.20);
+      border-radius: 18px;
+      box-shadow: 0 8px 28px rgba(99, 102, 241, 0.18);
+      transition: .25s;
+    }
+
+    .glass-card:hover {
+      box-shadow: 0 12px 38px rgba(99, 102, 241, 0.30);
+    }
+
+    /* Table Rows */
+    .row-hover {
+      transition: .25s ease;
+    }
+
+    .row-hover:hover {
+      background: rgba(229, 231, 255, 0.55);
+      transform: scale(1.01);
+    }
+
+    /* Add Button */
+    .btn-add {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      padding: 10px 22px;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(79, 70, 229, .35);
+      transition: .25s;
+    }
+
+    .btn-add:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(79, 70, 229, .45);
+    }
+
+    /* Table header */
+    .table-header {
+      background: linear-gradient(90deg, #4338ca, #4f46e5);
+      color: white;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-300 via-gray-100 to-blue-200 min-h-screen p-10">
+
+  <div class="max-w-6xl mx-auto">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-10">
+      <h1 class="text-4xl font-extrabold text-gray-900 tracking-wide">
+        📊 Stock Adjustments
+      </h1>
+
+      <a href="{% url 'adjustment_add' %}" class="btn-add">
+        + New Adjustment
+      </a>
+    </div>
+
+    <!-- TABLE CARD -->
+    <div class="glass-card overflow-x-auto p-6">
+
+      <table class="w-full text-left text-gray-800">
+        <thead class="table-header text-white text-lg">
+          <tr>
+            <th class="py-4 px-4">ID</th>
+            <th class="px-4">Product</th>
+            <th class="px-4">Type</th>
+            <th class="px-4">Qty</th>
+            <th class="px-4">Previous</th>
+            <th class="px-4">New</th>
+            <th class="px-4">Date</th>
+            <th class="px-4">Note</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for a in adjustments %}
+          <tr class="row-hover border-b bg-white/70">
+
+            <td class="px-4 py-3 font-semibold text-indigo-700">ADJ-{{ a.id }}</td>
+            <td class="px-4">{{ a.product.name }}</td>
+            <td class="px-4">{{ a.adjustment_type }}</td>
+            <td class="px-4 font-bold text-indigo-600">{{ a.quantity }}</td>
+            <td class="px-4">{{ a.previous_stock }}</td>
+            <td class="px-4">{{ a.new_stock }}</td>
+            <td class="px-4">{{ a.date }}</td>
+            <td class="px-4 text-gray-600">{{ a.note|default:"—" }}</td>
+
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="8" class="p-6 text-center text-gray-500">
+              No stock adjustments recorded yet.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>

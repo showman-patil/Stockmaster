@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Receipt List | StockMaster</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            animation: fadeIn .6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp .55s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.82);
+            border-radius: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.28);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.25);
+            transition: .25s;
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 10px 32px rgba(99, 102, 241, 0.35);
+        }
+
+        /* Row spacing */
+        td, th {
+            padding: 20px 25px !important;
+        }
+
+        /* Make rows taller and cleaner */
+        tbody tr {
+            height: 75px;
+            transition: .25s;
+        }
+
+        tbody tr:hover {
+            background: rgba(229, 231, 255, 0.55);
+            transform: scale(1.01);
+            box-shadow: 0 3px 12px rgba(99, 102, 241, 0.25);
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            padding: 10px 22px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            transition: .25s;
+            box-shadow: 0 6px 18px rgba(79, 70, 229, .35);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 26px rgba(79, 70, 229, .45);
+        }
+
+        #searchInput:focus {
+            box-shadow: 0 0 12px rgba(79, 70, 229, .4);
+            transform: scale(1.02);
+            transition: .25s;
+        }
+
+        .table-head {
+            background: linear-gradient(90deg, #4338ca, #4f46e5);
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-300 via-gray-100 to-blue-200 min-h-screen">
+
+    <!-- TOP BAR -->
+    <header class="bg-white/70 backdrop-blur-xl shadow-lg p-6 flex justify-between items-center slide-up rounded-b-2xl">
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-wide">
+            📥 Incoming Receipts
+        </h1>
+
+        <a href="{% url 'receipt_add' %}" class="btn-add">
+            + Create Receipt
+        </a>
+    </header>
+
+    <!-- SEARCH BAR -->
+    <section class="max-w-6xl mx-auto mt-10 slide-up">
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="🔍 Search receipts..."
+            class="w-full p-4 rounded-xl glass-card shadow focus:outline-none"
+        />
+    </section>
+
+    <!-- RECEIPT TABLE -->
+    <section class="max-w-6xl mx-auto mt-10 glass-card p-7 slide-up overflow-x-auto">
+
+        <table class="w-full text-center text-gray-800" id="receiptTable">
+
+            <thead class="text-lg table-head rounded-md">
+                <tr>
+                    <th class="py-4">Receipt No.</th>
+                    <th>Vendor</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th class="py-4">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for r in receipts %}
+                <tr class="bg-white/60 rounded-xl">
+
+                    <td class="font-semibold text-lg text-indigo-700">RCP-{{ r.id }}</td>
+                    <td>{{ r.vendor }}</td>
+                    <td>{{ r.product.name }}</td>
+                    <td class="font-bold text-indigo-600">{{ r.quantity }}</td>
+                    <td>{{ r.date }}</td>
+
+                    <td>
+                        {% if r.status == "Pending" %}
+                            <span class="px-4 py-1 rounded-lg bg-yellow-200 text-yellow-800">Pending</span>
+                        {% else %}
+                            <span class="px-4 py-1 rounded-lg bg-green-200 text-green-800">Received</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a
+                            href="{% url 'receipt_detail' r.id %}"
+                            class="px-5 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 hover:shadow-xl transition"
+                        >
+                            View
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const rows = document.querySelectorAll("#receiptTable tbody tr");
+
+        searchInput.addEventListener("keyup", () => {
+            const q = searchInput.value.toLowerCase();
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(q) ? "" : "none";
+            });
+        });
+    </script>
+
+</body>
+</html>

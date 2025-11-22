@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Details | StockMaster</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Material+Symbols+Rounded" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .icon { 
+            font-family: "Material Symbols Rounded"; 
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-4xl mx-auto">
+
+        <div class="flex items-center justify-between mb-8">
+            <a href="{% url 'delivery_list' %}" 
+               class="group flex items-center text-slate-500 hover:text-slate-800 transition-colors duration-200">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-slate-200 shadow-sm group-hover:border-slate-300 mr-2">
+                    <span class="icon">arrow_back</span>
+                </div>
+                <span class="font-medium">Back to List</span>
+            </a>
+            <span class="text-sm font-semibold text-slate-400 uppercase tracking-wider">StockMaster v1.0</span>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+            
+            <div class="bg-slate-900 p-8 text-white flex flex-col md:flex-row justify-between md:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-2 text-slate-400 text-sm mb-1">
+                        <span class="icon text-lg">tag</span>
+                        <span>Delivery ID</span>
+                    </div>
+                    <h1 class="text-3xl font-bold tracking-tight">DO-{{ delivery.id }}</h1>
+                </div>
+
+                <div>
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold shadow-sm border
+                        {% if delivery.status == 'Pending' %} 
+                            bg-amber-100 text-amber-800 border-amber-200
+                        {% elif delivery.status == 'Done' %} 
+                            bg-emerald-100 text-emerald-800 border-emerald-200
+                        {% else %}
+                            bg-slate-100 text-slate-800 border-slate-200
+                        {% endif %}">
+                        
+                        <span class="icon text-base">
+                            {% if delivery.status == 'Pending' %} schedule 
+                            {% elif delivery.status == 'Done' %} check_circle 
+                            {% else %} help {% endif %}
+                        </span>
+                        {{ delivery.status }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Order Items</h3>
+                            
+                            <div class="flex items-start gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-indigo-100 transition-colors">
+                                <div class="w-12 h-12 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                                    <span class="icon !text-2xl">inventory_2</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-slate-500 font-medium">Product Name</p>
+                                    <p class="text-lg font-bold text-slate-900">{{ delivery.product.name }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                                        <span class="icon">numbers</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-slate-500">Quantity</p>
+                                        <p class="text-lg font-semibold text-slate-900">{{ delivery.quantity }} <span class="text-sm text-slate-400 font-normal">units</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Logistics Information</h3>
+
+                        <ul class="space-y-6">
+                            <li class="relative flex gap-4 pb-6 border-l-2 border-slate-200 last:border-0 last:pb-0 pl-6">
+                                <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-slate-200 ring-4 ring-white"></span>
+                                <div>
+                                    <p class="text-sm text-slate-500 mb-1 flex items-center gap-1">
+                                        <span class="icon text-base">person</span> Customer
+                                    </p>
+                                    <p class="text-lg font-medium text-slate-800">{{ delivery.customer_name }}</p>
+                                </div>
+                            </li>
+
+                            <li class="relative flex gap-4 border-l-2 border-slate-200 pl-6">
+                                <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-indigo-500 ring-4 ring-white"></span>
+                                <div>
+                                    <p class="text-sm text-slate-500 mb-1 flex items-center gap-1">
+                                        <span class="icon text-base">event</span> Date Created
+                                    </p>
+                                    <p class="text-base font-medium text-slate-800">{{ delivery.created_at }}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-slate-50 px-8 py-4 border-t border-slate-200 flex justify-end gap-3">
+                <button class="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                    Print Details
+                </button>
+                <a href="#" class="px-4 py-2 text-sm font-medium text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors">
+                    Edit Order
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

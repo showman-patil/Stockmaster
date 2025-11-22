@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Delivery Order | StockMaster</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+    <style>
+        .icon { font-family: "Material Symbols Rounded"; }
+    </style>
+</head>
+
+<body class="bg-gray-100 p-10">
+
+    <a href="{% url 'delivery_list' %}"
+       class="inline-flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
+        <span class="icon">arrow_back</span>
+        Back to List
+    </a>
+
+    <div class="mt-8 bg-white p-10 rounded-xl shadow-lg">
+
+        <h1 class="text-3xl font-bold mb-8">Create Delivery Order</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- CUSTOMER -->
+            <label class="block text-gray-600 mb-1">Customer Name</label>
+            <input type="text" name="customer_name"
+                   class="w-full px-4 py-3 border rounded-lg mb-6"
+                   placeholder="Enter customer name" required>
+
+            <!-- PRODUCT -->
+            <label class="block text-gray-600 mb-1">Select Product</label>
+            <select name="product_id"
+                    class="w-full px-4 py-3 border rounded-lg mb-6" required>
+                <option value="">-- Select Product --</option>
+
+                {% for p in products %}
+                <option value="{{ p.id }}">{{ p.name }} (Stock: {{ p.stock }})</option>
+                {% endfor %}
+            </select>
+
+            <!-- QUANTITY -->
+            <label class="block text-gray-600 mb-1">Quantity</label>
+            <input type="number" name="quantity"
+                   class="w-full px-4 py-3 border rounded-lg mb-6"
+                   min="1" required>
+
+            <!-- SUBMIT -->
+            <button type="submit"
+                    class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                Submit Delivery Order
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

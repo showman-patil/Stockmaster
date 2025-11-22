@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Add Product | StockMaster</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        /* Page load fade */
+        body {
+            animation: fadeIn .6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glass + shadow card */
+        .pro-card {
+            background: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+            animation: slideUp .7s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(35px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card hover effect */
+        .pro-card:hover {
+            transform: translateY(-4px);
+            transition: .2s;
+            box-shadow: 0 15px 35px rgba(0,0,0,.12);
+        }
+
+        /* Floating label inputs */
+        .group { position: relative; }
+        .group input {
+            border: 1px solid #d1d5db;
+            padding: 14px 12px 6px;
+            border-radius: 10px;
+            width: 100%;
+            transition: .2s;
+        }
+
+        .group label {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 6px;
+            color: #6b7280;
+            pointer-events: none;
+            transition: .2s;
+        }
+
+        .group input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, .15);
+        }
+
+        .group input:focus + label,
+        .group input:not(:placeholder-shown) + label {
+            top: -6px;
+            font-size: 12px;
+            color: #4f46e5;
+        }
+
+        /* Animated gradient button */
+        .btn-pro {
+            background: linear-gradient(120deg, #4f46e5, #6366f1, #818cf8);
+            background-size: 200% 200%;
+            animation: gradientMove 4s ease infinite;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .btn-pro:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, .5);
+            transition: .2s;
+        }
+
+        /* Back button hover */
+        .back-btn:hover {
+            transform: translateX(-3px);
+            transition: .2s;
+        }
+    </style>
+
+</head>
+
+<body class="bg-gradient-to-br from-indigo-300 via-gray-100 to-blue-200 min-h-screen">
+
+    <!-- Header -->
+    <div class="p-6 bg-white shadow flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-gray-800 tracking-wide">➕ Add New Product</h1>
+
+        <a href="{% url 'product_list' %}"
+           class="back-btn px-5 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-900">
+            ← Back
+        </a>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="max-w-3xl mx-auto mt-12 p-10 pro-card">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- NAME -->
+            <div class="mb-8 group">
+                <input type="text" name="name" required placeholder=" " />
+                <label>Product Name</label>
+            </div>
+
+            <!-- SKU -->
+            <div class="mb-8 group">
+                <input type="text" name="sku" required placeholder=" " />
+                <label>SKU / Code</label>
+            </div>
+
+            <!-- CATEGORY -->
+            <div class="mb-8 group">
+                <input type="text" name="category" required placeholder=" " />
+                <label>Category</label>
+            </div>
+
+            <!-- UNIT -->
+            <div class="mb-8 group">
+                <input type="text" name="unit" required placeholder=" " />
+                <label>Unit (kg, pcs, meter)</label>
+            </div>
+
+            <!-- STOCK -->
+            <div class="mb-8 group">
+                <input type="number" name="stock" required placeholder=" " />
+                <label>Initial Stock</label>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button type="submit"
+                class="btn-pro w-full py-3 mt-2 text-white text-xl font-semibold rounded-xl shadow cursor-pointer">
+                Save Product
+            </button>
+        </form>
+
+    </div>
+
+</body>
+
+</html>

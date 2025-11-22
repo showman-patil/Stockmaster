@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+	* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #5b86e5, #36d1dc);
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-box {
+    background: #ffffffee;
+    padding: 35px;
+    border-radius: 30px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.login-box h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    color: #555;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #5b86e5;
+    box-shadow: 0 0 5px rgba(91, 134, 229, 0.5);
+    outline: none;
+}
+
+.btn {
+    margin-top: 5px;
+    width: 100%;
+    padding: 12px;
+    background: #5b86e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #466cc7;
+}
+
+.signup-text {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.signup-text a {
+    color: #5b86e5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-sec a {
+    color: #5b86e5;
+    text-decoration: none;
+    font-size: 14px;	
+}
+
+.link-sec a:hover {
+    text-decoration: underline;
+    transition: 0.7s;	
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form class="login-box">
+            <h1>Login</h1>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" placeholder="Enter your email..." required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" placeholder="Enter your password..." required>
+            </div>
+
+	    <div class="link-sec">
+		<a href="#">Forgot Password...</a>
+	    </div>
+
+            <button type="submit" class="btn">Sign In</button>
+
+            <p class="signup-text">
+                Don't have an account? <a href="#">Sign up</a>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

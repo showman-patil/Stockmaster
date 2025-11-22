@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt Details | StockMaster</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            animation: fadeIn .5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-card {
+            background: rgba(255,255,255,.82);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(99,102,241,.35);
+            box-shadow: 0 6px 22px rgba(99,102,241,.28);
+            padding: 26px;
+        }
+
+        .label {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1e1b4b;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-300 via-gray-100 to-blue-200 min-h-screen">
+
+    <div class="p-8">
+
+        <!-- BACK BUTTON -->
+        <a href="{% url 'receipt_list' %}"
+           class="px-5 py-2 bg-gray-800 text-white rounded-lg shadow hover:bg-black transition">
+            ← Back to Receipts
+        </a>
+
+        <!-- TITLE -->
+        <h1 class="text-4xl font-bold text-gray-900 mt-6 mb-4">
+            Receipt #RCP-{{ receipt.id }}
+        </h1>
+        <p class="text-gray-600 mb-8">Receipt Details Overview</p>
+
+        <!-- DETAILS CARD -->
+        <div class="glass-card max-w-4xl">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <div>
+                    <p class="label">Vendor</p>
+                    <p class="value">{{ receipt.vendor }}</p>
+                </div>
+
+                <div>
+                    <p class="label">Product</p>
+                    <p class="value">{{ receipt.product.name }}</p>
+                </div>
+
+                <div>
+                    <p class="label">Quantity</p>
+                    <p class="value text-indigo-700">{{ receipt.quantity }}</p>
+                </div>
+
+                <div>
+                    <p class="label">Status</p>
+                    <p class="value">
+                        {% if receipt.status == "Pending" %}
+                            <span class="px-3 py-1 bg-yellow-200 text-yellow-800 rounded-lg">Pending</span>
+                        {% else %}
+                            <span class="px-3 py-1 bg-green-200 text-green-800 rounded-lg">Received</span>
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div>
+                    <p class="label">Date</p>
+                    <p class="value">{{ receipt.date }}</p>
+                </div>
+
+                <div>
+                    <p class="label">Note</p>
+                    <p class="value text-gray-700">
+                        {{ receipt.note|default:"No note provided." }}
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

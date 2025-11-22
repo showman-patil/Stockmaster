@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Create Transfer | StockMaster</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Page Fade */
+        body {
+            animation: fadeIn .6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(99, 102, 241, 0.28);
+            backdrop-filter: blur(10px);
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.25);
+            transition: .25s;
+        }
+        .glass-card:hover {
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.35);
+            transform: translateY(-3px);
+        }
+
+        /* Button */
+        .btn-save {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: .25s;
+            box-shadow: 0 6px 18px rgba(79,70,229,.35);
+        }
+        .btn-save:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 26px rgba(79,70,229,.45);
+        }
+
+        input, select, textarea {
+            transition: .25s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #4f46e5 !important;
+            box-shadow: 0 0 0 3px rgba(79,70,229,.25);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-200 via-gray-100 to-blue-100 min-h-screen">
+
+    <!-- HEADER -->
+    <div class="bg-white/70 backdrop-blur-xl shadow-lg p-6 flex justify-between items-center rounded-b-2xl">
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-wide">
+            🔄 Internal Transfer
+        </h1>
+
+        <a href="{% url 'transfer_list' %}"
+           class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-black transition">
+            ← Back to List
+        </a>
+    </div>
+
+    <!-- MAIN FORM -->
+    <div class="max-w-3xl mx-auto mt-10 glass-card p-10">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- PRODUCT -->
+            <div class="mb-7">
+                <label class="text-gray-700 font-medium">Select Product</label>
+                <select name="product" required class="w-full p-3 border rounded-lg shadow-sm">
+                    <option selected disabled>-- Choose Product --</option>
+                    {% for p in products %}
+                        <option value="{{ p.id }}">{{ p.name }} ({{ p.sku }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- FROM LOCATION -->
+            <div class="mb-7">
+                <label class="text-gray-700 font-medium">From Location</label>
+                <select name="from_location" required class="w-full p-3 border rounded-lg shadow-sm">
+                    <option disabled selected>-- Source Location --</option>
+                    <option>Warehouse</option>
+                    <option>Rack A</option>
+                    <option>Rack B</option>
+                    <option>Rack C</option>
+                </select>
+            </div>
+
+            <!-- TO LOCATION -->
+            <div class="mb-7">
+                <label class="text-gray-700 font-medium">To Location</label>
+                <select name="to_location" required class="w-full p-3 border rounded-lg shadow-sm">
+                    <option disabled selected>-- Destination Location --</option>
+                    <option>Warehouse</option>
+                    <option>Rack A</option>
+                    <option>Rack B</option>
+                    <option>Rack C</option>
+                </select>
+            </div>
+
+            <!-- QUANTITY -->
+            <div class="mb-7">
+                <label class="text-gray-700 font-medium">Quantity</label>
+                <input type="number" name="quantity" required min="1"
+                       placeholder="Enter quantity"
+                       class="w-full p-3 border rounded-lg shadow-sm">
+            </div>
+
+            <!-- NOTES -->
+            <div class="mb-7">
+                <label class="text-gray-700 font-medium">Notes (optional)</label>
+                <textarea name="note" rows="4" class="w-full p-3 border rounded-lg shadow-sm"></textarea>
+            </div>
+
+            <!-- SAVE BUTTON -->
+            <button type="submit" class="btn-save w-full">
+                Save Transfer
+            </button>
+        </form>
+
+    </div>
+
+</body>
+</html>

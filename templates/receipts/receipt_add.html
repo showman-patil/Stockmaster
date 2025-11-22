@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Create Receipt | StockMaster</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+    <style>
+        .icon { font-family: "Material Symbols Rounded"; }
+
+        /* Page fade */
+        body { animation: fadeIn .6s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glass card */
+        .glass-card {
+            background: rgba(255, 255, 255, .82);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(99,102,241,.28);
+            box-shadow: 0 10px 28px rgba(99,102,241,.25);
+            transition: .3s;
+        }
+        .glass-card:hover {
+            box-shadow: 0 14px 38px rgba(99,102,241,.35);
+            transform: translateY(-3px);
+        }
+
+        /* Inputs */
+        input, select, textarea {
+            transition: .25s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #4f46e5 !important;
+            box-shadow: 0 0 0 4px rgba(79,70,229,.2);
+        }
+
+        /* Save button */
+        .btn-save {
+            background: linear-gradient(135deg, #4f46e5, #6a5af9);
+            color: white;
+            padding: 14px 0;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: .25s;
+            box-shadow: 0 6px 18px rgba(79,70,229,.35);
+        }
+        .btn-save:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 10px 26px rgba(79,70,229,.45);
+        }
+
+        /* Back button */
+        .btn-back:hover {
+            transform: translateX(-4px);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-300 via-gray-100 to-blue-200 min-h-screen">
+
+    <!-- HEADER -->
+    <div class="bg-white/70 backdrop-blur-xl shadow-lg p-6 flex justify-between items-center rounded-b-2xl">
+        <h1 class="text-4xl font-extrabold text-gray-900">
+            ➕ Create Receipt
+        </h1>
+
+        <a href="{% url 'receipt_list' %}"
+           class="btn-back px-5 py-2 bg-gray-700 text-white rounded-xl flex items-center gap-2 transition">
+            <span class="icon">arrow_back</span>
+            Back
+        </a>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="max-w-3xl mx-auto mt-12 glass-card p-10">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Vendor -->
+            <div class="mb-8">
+                <label class="text-gray-700 font-semibold">Vendor Name</label>
+                <input type="text" name="vendor" required
+                    placeholder="Enter vendor name"
+                    class="w-full p-3 border rounded-lg shadow-sm mt-1">
+            </div>
+
+            <!-- Product -->
+            <div class="mb-8">
+                <label class="text-gray-700 font-semibold">Select Product</label>
+                <select name="product" required
+                    class="w-full p-3 border rounded-lg shadow-sm mt-1">
+                    <option disabled selected>-- Choose Product --</option>
+                    {% for p in products %}
+                        <option value="{{ p.id }}">{{ p.name }} ({{ p.sku }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Quantity -->
+            <div class="mb-8">
+                <label class="text-gray-700 font-semibold">Quantity</label>
+                <input type="number" name="quantity" required
+                    placeholder="Enter quantity"
+                    class="w-full p-3 border rounded-lg shadow-sm mt-1">
+            </div>
+
+            <!-- Notes -->
+            <div class="mb-8">
+                <label class="text-gray-700 font-semibold">Notes (optional)</label>
+                <textarea name="note" rows="4"
+                    class="w-full p-3 border rounded-lg shadow-sm mt-1"
+                    placeholder="Additional details..."></textarea>
+            </div>
+
+            <!-- SAVE -->
+            <button type="submit" class="btn-save w-full">
+                Save Receipt
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
