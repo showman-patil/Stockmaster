@@ -126,10 +126,13 @@
                     </div>
                 </a>
 
-                <!-- Logout Button -->
-                <a href="" class="text-slate-400 hover:text-red-400 transition-colors" title="Logout">
-                    <span class="icon text-[20px]">logout</span>
-                </a>
+                <!-- Logout Button (POST form for safe logout) -->
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="text-slate-400 hover:text-red-400 transition-colors" title="Logout" style="background:none;border:none;padding:0;">
+                        <span class="icon text-[20px]">logout</span>
+                    </button>
+                </form>
             </div>
         </div>
     </aside>
