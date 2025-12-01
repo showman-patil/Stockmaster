@@ -6,3 +6,4 @@ requests              # if making external HTTP calls
 python-dotenv         # for .env/ environment variable support
 whitenoise            # for static file serving (if used)
 django-cors-headers   # if you use CORS middleware / APIs
+django-jazzmin
