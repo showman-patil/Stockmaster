@@ -7,3 +7,4 @@ python-dotenv         # for .env/ environment variable support
 whitenoise            # for static file serving (if used)
 django-cors-headers   # if you use CORS middleware / APIs
 django-jazzmin
+Pillow==10.1.0
